@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="CircularBrush.cs" />
     <Compile Include="CircularBrushCreator.cs" />
+    <Compile Include="BrushHelper.cs" />
     <Compile Include="CustomBrushBase.cs" />
     <Compile Include="Impl\BrushCreatorBase.cs" />
     <Compile Include="Impl\BrushCreatorUsingCoordinate.cs" />

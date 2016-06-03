@@ -1,0 +1,51 @@
+﻿<mah:MetroWindow x:Class="Test.CB.Media.Brushes.Views.TestBrushHelperWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:vmd="clr-namespace:Test.CB.Media.Brushes.ViewModels"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 mc:Ignorable="d"
+                 Title="Test BrushHelper" SizeToContent="WidthAndHeight" Style="{StaticResource MetroWindowStyle}">
+
+    <Window.DataContext>
+        <vmd:TestBrushHelperViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <Style TargetType="Rectangle">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="Margin" Value="{StaticResource NormalMargin}" />
+                <Setter Property="MinHeight" Value="60" />
+                <Setter Property="MinWidth" Value="240" />
+            </Style>
+        </Grid.Resources>
+
+        <Rectangle Grid.Row="0">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="{Binding Color}" />
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Rectangle Grid.Row="1" Fill="{Binding SolidBrush}" />
+
+        <Rectangle Grid.Row="2" Fill="{Binding LinearBrush}" />
+
+        <Rectangle Grid.Row="3" Fill="{Binding RadialBrush}" />
+
+        <Slider Grid.Row="4" Minimum="-1" Maximum="1" Value="{Binding Brightness}" />
+
+        <Button Grid.Row="5" Content="Reset" Command="{Binding ResetCommand}" />
+    </Grid>
+</mah:MetroWindow>
