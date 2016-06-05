@@ -15,12 +15,10 @@ namespace Test.CB.Media.Brushes.ViewModels
         private static readonly Random _random = new Random(DateTime.Now.Millisecond);
         private double _brightness;
         private Color _color, _sourceColor;
-        private LinearGradientBrush _linearBrush;
-        private RadialGradientBrush _radialBrush;
-        private SolidColorBrush _solidBrush;
-        private LinearGradientBrush _sourceLinearBrush;
-        private RadialGradientBrush _sourceRadialBrush;
-        private SolidColorBrush _sourceSolidBrush;
+        private ColorInfo _colorInfo;
+        private LinearGradientBrush _linearBrush, _sourceLinearBrush;
+        private RadialGradientBrush _radialBrush, _sourceRadialBrush;
+        private SolidColorBrush _solidBrush, _sourceSolidBrush;
         #endregion
 
 
@@ -46,10 +44,10 @@ namespace Test.CB.Media.Brushes.ViewModels
             {
                 if (!SetProperty(ref _brightness, value)) return;
 
-                Color = _sourceColor.SetBrightness(value);
-                SolidBrush = _sourceSolidBrush.SetBrightness(value);
-                LinearBrush = _sourceLinearBrush.SetBrightness(value);
-                RadialBrush = _sourceRadialBrush.SetBrightness(value);
+                Color = _sourceColor.AdjustBrightness(value);
+                SolidBrush = _sourceSolidBrush.AdjustBrightness(value);
+                LinearBrush = _sourceLinearBrush.AdjustBrightness(value);
+                RadialBrush = _sourceRadialBrush.AdjustBrightness(value);
             }
         }
 
@@ -57,6 +55,12 @@ namespace Test.CB.Media.Brushes.ViewModels
         {
             get { return _color; }
             private set { SetProperty(ref _color, value); }
+        }
+
+        public ColorInfo ColorInfo
+        {
+            get { return _colorInfo; }
+            private set { SetProperty(ref _colorInfo, value); }
         }
 
         public LinearGradientBrush LinearBrush
@@ -103,6 +107,7 @@ namespace Test.CB.Media.Brushes.ViewModels
                 _sourceLinearBrush =
                 new LinearGradientBrush(GetRandomColor(), GetRandomColor(), new Point(0, 0.5), new Point(1, 0.5));
             RadialBrush = _sourceRadialBrush = new RadialGradientBrush(GetRandomColor(), GetRandomColor());
+            ColorInfo = new ColorInfo { Color = GetRandomColor() };
         }
         #endregion
     }

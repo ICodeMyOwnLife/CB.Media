@@ -90,6 +90,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ColorInfo.cs" />
     <Compile Include="ViewModels\TestBrushHelperViewModel.cs" />
     <Compile Include="Views\TestBrushHelperWindow.xaml.cs">
       <DependentUpon>TestBrushHelperWindow.xaml</DependentUpon>

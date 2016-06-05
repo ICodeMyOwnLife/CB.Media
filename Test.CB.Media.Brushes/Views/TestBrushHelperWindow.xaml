@@ -13,39 +13,66 @@
     </Window.DataContext>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
         <Grid.Resources>
             <Style TargetType="Rectangle">
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <Setter Property="VerticalAlignment" Value="Stretch" />
                 <Setter Property="Margin" Value="{StaticResource NormalMargin}" />
                 <Setter Property="MinHeight" Value="60" />
                 <Setter Property="MinWidth" Value="240" />
             </Style>
+
+            <Style x:Key="SliderStyle.1" TargetType="Slider" BasedOn="{StaticResource SliderStyle}">
+                <Setter Property="Minimum" Value="0" />
+                <Setter Property="Maximum" Value="1" />
+                <Setter Property="TickFrequency" Value="0.01" />
+            </Style>
+
+            <Style x:Key="SliderStyle.2" TargetType="Slider" BasedOn="{StaticResource SliderStyle}">
+                <Setter Property="Minimum" Value="-1" />
+                <Setter Property="Maximum" Value="1" />
+                <Setter Property="TickFrequency" Value="0.02" />
+            </Style>
+
+            <Style x:Key="SliderStyle.255" TargetType="Slider" BasedOn="{StaticResource SliderStyle}">
+                <Setter Property="Minimum" Value="0" />
+                <Setter Property="Maximum" Value="255" />
+                <Setter Property="TickFrequency" Value="1" />
+            </Style>
         </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-        <Rectangle Grid.Row="0">
-            <Rectangle.Fill>
-                <SolidColorBrush Color="{Binding Color}" />
-            </Rectangle.Fill>
-        </Rectangle>
+        <StackPanel Grid.Column="0">
+            <Rectangle>
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding Color}" />
+                </Rectangle.Fill>
+            </Rectangle>
 
-        <Rectangle Grid.Row="1" Fill="{Binding SolidBrush}" />
+            <Rectangle Fill="{Binding SolidBrush}" />
 
-        <Rectangle Grid.Row="2" Fill="{Binding LinearBrush}" />
+            <Rectangle Fill="{Binding LinearBrush}" />
 
-        <Rectangle Grid.Row="3" Fill="{Binding RadialBrush}" />
+            <Rectangle Fill="{Binding RadialBrush}" />
 
-        <Slider Grid.Row="4" Minimum="-1" Maximum="1" Value="{Binding Brightness}" />
+            <Slider Value="{Binding Brightness}" Style="{StaticResource SliderStyle.2}" />
 
-        <Button Grid.Row="5" Content="Reset" Command="{Binding ResetCommand}" />
+            <Button Content="Reset" Command="{Binding ResetCommand}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" DataContext="{Binding ColorInfo}">
+            <Rectangle>
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding Color}" />
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Slider Value="{Binding Brightness}" Style="{StaticResource SliderStyle.1}" />
+
+            <Slider Value="{Binding AbsoluteBrightness}" Style="{StaticResource SliderStyle.255}" />
+        </StackPanel>
     </Grid>
+
 </mah:MetroWindow>
