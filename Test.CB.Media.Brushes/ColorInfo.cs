@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using CB.Media.Brushes;
+using CB.Media.Brushes.Impl;
 using CB.Model.Common;
 
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CB.Media.Brushes", "CB.Media.Brushes\CB.Media.Brushes.csproj", "{61A1FDD6-1482-4D6C-A276-51D4124EC53B}"
 EndProject
@@ -14,6 +14,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CB.Model.Prism", "..\CB.Model\CB.Model.Prism\CB.Model.Prism.csproj", "{6A52CAE9-6F3E-4A20-96EB-0E6116A6709C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CB.WPF.Resources.MahApps", "..\CB.WPF\CB.WPF.Resources.MahApps\CB.WPF.Resources.MahApps.csproj", "{88845A0D-9B1F-4D1A-92D3-0C8D97E4D747}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CB.Wpf.Controls", "..\CB.WPF\CB.Wpf.Controls\CB.Wpf.Controls.csproj", "{40DDC946-CD13-4734-990F-FBFF6914652E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CB.Xaml.AttachedProperties", "..\CB.Xaml\Test.CB.Xaml.AttachedProperties\Test.CB.Xaml.AttachedProperties.csproj", "{4174F6F4-6F26-4314-B9C6-5D83C0D47A1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CB.Prism.Interactivity", "..\CB.Prism\CB.Prism.Interactivity\CB.Prism.Interactivity.csproj", "{640C072B-F368-4D76-9969-9C6BFE4070D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CB.Xaml.AttachedProperties", "..\CB.Xaml\CB.Xaml.AttachedProperties\CB.Xaml.AttachedProperties.csproj", "{1CCB7F4E-228A-4A8E-A211-A032C9C8767B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{DD0BA99C-A95A-4105-86E5-980C10E2F5EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApp", "..\..\..\Projects\Tests\TestConsoleLibrary\TestConsoleApp\TestConsoleApp.csproj", "{6B06FFF2-007F-46CC-B03D-59F301B292F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +57,30 @@ Global
 		{88845A0D-9B1F-4D1A-92D3-0C8D97E4D747}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88845A0D-9B1F-4D1A-92D3-0C8D97E4D747}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88845A0D-9B1F-4D1A-92D3-0C8D97E4D747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40DDC946-CD13-4734-990F-FBFF6914652E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40DDC946-CD13-4734-990F-FBFF6914652E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40DDC946-CD13-4734-990F-FBFF6914652E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40DDC946-CD13-4734-990F-FBFF6914652E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4174F6F4-6F26-4314-B9C6-5D83C0D47A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4174F6F4-6F26-4314-B9C6-5D83C0D47A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4174F6F4-6F26-4314-B9C6-5D83C0D47A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4174F6F4-6F26-4314-B9C6-5D83C0D47A1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{640C072B-F368-4D76-9969-9C6BFE4070D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{640C072B-F368-4D76-9969-9C6BFE4070D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{640C072B-F368-4D76-9969-9C6BFE4070D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{640C072B-F368-4D76-9969-9C6BFE4070D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CCB7F4E-228A-4A8E-A211-A032C9C8767B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CCB7F4E-228A-4A8E-A211-A032C9C8767B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CCB7F4E-228A-4A8E-A211-A032C9C8767B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CCB7F4E-228A-4A8E-A211-A032C9C8767B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD0BA99C-A95A-4105-86E5-980C10E2F5EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD0BA99C-A95A-4105-86E5-980C10E2F5EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD0BA99C-A95A-4105-86E5-980C10E2F5EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD0BA99C-A95A-4105-86E5-980C10E2F5EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B06FFF2-007F-46CC-B03D-59F301B292F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B06FFF2-007F-46CC-B03D-59F301B292F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B06FFF2-007F-46CC-B03D-59F301B292F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B06FFF2-007F-46CC-B03D-59F301B292F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

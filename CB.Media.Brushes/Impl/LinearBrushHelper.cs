@@ -168,25 +168,25 @@ namespace CB.Media.Brushes.Impl
 
         public static double GetLinearOffset(Color color, ICollection<GradientStop> stops)
         {
-            if (stops == null || stops.Count <= 0) return Double.NaN;
+            if (stops == null || stops.Count <= 0) return double.NaN;
 
             var orderedStops = stops.OrderBy(s => s.Offset).ToArray();
 
             for (var i = 0; i < stops.Count - 1; i++)
             {
                 var offset = GetLinearOffset(color, orderedStops[i], orderedStops[i + 1]);
-                if (!Double.IsNaN(offset))
+                if (!double.IsNaN(offset))
                 {
                     return offset;
                 }
             }
 
-            return Double.NaN;
+            return double.NaN;
         }
 
         public static Color? GetLinearOffsetColor(double offset, GradientStopCollection stops)
         {
-            if (stops == null || stops.Count == 0 || Double.IsNaN(offset))
+            if (stops == null || stops.Count == 0 || double.IsNaN(offset))
             {
                 return null;
             }
@@ -210,18 +210,6 @@ namespace CB.Media.Brushes.Impl
                               ? orderedStop.First().Color
                               : GetLinearOffsetColor(offset, prevStop, nextStop));
         }
-
-        public static Color? GetRootColor(Color color, out double offsetX, out double offsetY)
-        {
-            if (color.R == color.G && color.G == color.B)
-            {
-                offsetX = 0;
-                offsetY = 1.0 - color.R / 255.0;
-                return null;
-            }
-            var reducedBlackColor = ReduceBlack(color, out offsetY);
-            return ReduceWhite(reducedBlackColor, out offsetX);
-        }
         #endregion
 
 
@@ -237,7 +225,7 @@ namespace CB.Media.Brushes.Impl
             Color color1 = prevStop.Color, color2 = nextStop.Color;
             if (color == color1) return prevStop.Offset;
             if (color == color2) return nextStop.Offset;
-            if (!IsBetweenTwoColor(color, color1, color2)) return Double.NaN;
+            if (!IsBetweenTwoColor(color, color1, color2)) return double.NaN;
             var offsets = new[]
             {
                 (color.ScA - color1.ScA) / (color2.ScA - color1.ScA),
@@ -245,11 +233,11 @@ namespace CB.Media.Brushes.Impl
                 (color.ScG - color1.ScG) / (color2.ScG - color1.ScG),
                 (color.ScB - color1.ScB) / (color2.ScB - color1.ScB)
             };
-            var valuedOffsets = offsets.Where(o => !Double.IsNaN(o)).ToArray();
+            var valuedOffsets = offsets.Where(o => !double.IsNaN(o)).ToArray();
             var offset = valuedOffsets.Average();
             return valuedOffsets.All(o => Math.Abs(offset - o) < 0.01)
                        ? offset * (nextStop.Offset - prevStop.Offset) + prevStop.Offset
-                       : Double.NaN;
+                       : double.NaN;
         }
 
         private static Color GetLinearOffsetColor(double offset, GradientStop startStop, GradientStop endStop)
@@ -272,37 +260,6 @@ namespace CB.Media.Brushes.Impl
                (color.R - prevColor.R) * (color.R - nextColor.R) <= 0 &&
                (color.G - prevColor.G) * (color.G - nextColor.G) <= 0 &&
                (color.B - prevColor.B) * (color.B - nextColor.B) <= 0;
-
-        private static Color ReduceBlack(Color color, out double offsetY)
-        {
-            var ratio = 255.0 / Math.Max(Math.Max(color.R, color.G), color.B);
-            offsetY = 1 - 1 / ratio;
-            return new Color
-            {
-                A = byte.MaxValue,
-                R = ReduceBlackComponent(color.R, ratio),
-                G = ReduceBlackComponent(color.G, ratio),
-                B = ReduceBlackComponent(color.B, ratio)
-            };
-        }
-
-        private static byte ReduceBlackComponent(byte component, double offsetY) => (byte)Math.Round(offsetY * component);
-
-        private static Color ReduceWhite(Color color, out double offsetX)
-        {
-            var ratio = Math.Min(Math.Min(color.R, color.G), color.B) / 255.0;
-            offsetX = 1.0 - ratio;
-            return new Color
-            {
-                A = byte.MaxValue,
-                R = ReduceWhiteComponent(color.R, ratio),
-                G = ReduceWhiteComponent(color.G, ratio),
-                B = ReduceWhiteComponent(color.B, ratio)
-            };
-        }
-
-        private static byte ReduceWhiteComponent(byte component, double offsetX)
-            => (byte)Math.Round((component - 255 * offsetX) / (1 - offsetX));
         #endregion
     }
 }

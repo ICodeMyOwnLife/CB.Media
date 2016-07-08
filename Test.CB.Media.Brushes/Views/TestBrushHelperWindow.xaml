@@ -14,31 +14,9 @@
 
     <Grid>
         <Grid.Resources>
-            <Style TargetType="Rectangle">
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <Setter Property="Margin" Value="{StaticResource NormalMargin}" />
-                <Setter Property="MinHeight" Value="60" />
-                <Setter Property="MinWidth" Value="240" />
-            </Style>
-
-            <Style x:Key="SliderStyle.1" TargetType="Slider" BasedOn="{StaticResource SliderStyle}">
-                <Setter Property="Minimum" Value="0" />
-                <Setter Property="Maximum" Value="1" />
-                <Setter Property="TickFrequency" Value="0.01" />
-            </Style>
-
-            <Style x:Key="SliderStyle.2" TargetType="Slider" BasedOn="{StaticResource SliderStyle}">
-                <Setter Property="Minimum" Value="-1" />
-                <Setter Property="Maximum" Value="1" />
-                <Setter Property="TickFrequency" Value="0.02" />
-            </Style>
-
-            <Style x:Key="SliderStyle.255" TargetType="Slider" BasedOn="{StaticResource SliderStyle}">
-                <Setter Property="Minimum" Value="0" />
-                <Setter Property="Maximum" Value="255" />
-                <Setter Property="TickFrequency" Value="1" />
-            </Style>
+            <Style TargetType="Rectangle" BasedOn="{StaticResource RectangleStyle}" />
         </Grid.Resources>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using CB.Media.Brushes;
+using CB.Media.Brushes.Impl;
 using CB.Model.Prism;
 using Microsoft.Practices.Prism.Commands;
 
