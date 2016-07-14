@@ -1,7 +1,8 @@
 ﻿<tst:TestApplication x:Class="Test.CB.Media.Brushes.App"
                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:tst="clr-namespace:CB_WPF_Test;assembly=CB.WPF.Test">
+                     xmlns:tst="clr-namespace:CB_WPF_Test;assembly=CB.WPF.Test"
+                     xmlns:helpers="clr-namespace:Test.CB.Media.Brushes.Helpers">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -11,6 +12,8 @@
 
             <Thickness x:Key="NormalMargin">8</Thickness>
 
+            <helpers:ColorToStringConverter x:Key="ColorToStringConverter" ColorSystemType="Argb"/>
+            
             <Color x:Key="TestColor">#454545</Color>
 
             <Style x:Key="RectangleStyle" TargetType="Rectangle">

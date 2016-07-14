@@ -1,11 +1,18 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Media;
+using static System.Windows.Media.Color;
 
 
 namespace CB.Media.Brushes.Impl
 {
     public static class MediaHelper
     {
+        #region Fields
+        internal const double MIN_SATURATION = 0.0005;
+        #endregion
+
+
         #region Methods
         public static SolidColorBrush AdjustBrightness(this SolidColorBrush brush, double brightness)
             => SetSolidColorBrush(brush, brightness, AdjustBrightness);
@@ -20,15 +27,21 @@ namespace CB.Media.Brushes.Impl
                    : brightness <= -1
                          ? Colors.Black
                          : (brightness > 0
-                                ? Color.FromScRgb(color.ScA, AdjustWhite(color.ScR, brightness),
+                                ? FromScRgb(color.ScA, AdjustWhite(color.ScR, brightness),
                                     AdjustWhite(color.ScG, brightness), AdjustWhite(color.ScB, brightness))
                                 : brightness < 0
-                                      ? Color.FromScRgb(color.ScA, AdjustBlack(color.ScR, brightness),
+                                      ? FromScRgb(color.ScA, AdjustBlack(color.ScR, brightness),
                                           AdjustBlack(color.ScG, brightness), AdjustBlack(color.ScB, brightness))
                                       : color);
 
         public static double CalculateBrightness(Color color)
             => (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) / 255.0;
+
+        public static Color CreateColor(double hue)
+            => CreateColor(hue, 1, 1);
+
+        public static Color CreateColor(double hue, double saturation, double lightness)
+            => SetLightness(SetSaturation(CreateColorFromHue(hue, 1, 1, 0), saturation), lightness);
 
         public static double GetAbsoluteBrighness(this Color color)
             => 0.299 * color.R + 0.587 * color.G + 0.114 * color.B;
@@ -37,29 +50,19 @@ namespace CB.Media.Brushes.Impl
             => GetAbsoluteBrighness(color) / byte.MaxValue;
 
         public static Brush GetContrastBlackWhiteBrush(Color color)
-        {
-            return GetContrastBrush(color, System.Windows.Media.Brushes.White, System.Windows.Media.Brushes.Black);
-        }
+            => GetContrastBrush(color, System.Windows.Media.Brushes.White, System.Windows.Media.Brushes.Black);
 
         public static Color GetContrastBlackWhiteColor(Color color)
-        {
-            return GetContrastColor(color, Colors.White, Colors.Black);
-        }
+            => GetContrastColor(color, Colors.White, Colors.Black);
 
         public static Brush GetContrastBrush(Color color, Brush brightBrush, Brush darkBrush)
-        {
-            return CalculateBrightness(color) > 0.5 ? darkBrush : brightBrush;
-        }
+            => CalculateBrightness(color) > 0.5 ? darkBrush : brightBrush;
 
         public static Color GetContrastColor(Color color, Color brightColor, Color darkColor)
-        {
-            return CalculateBrightness(color) > 0.5 ? darkColor : brightColor;
-        }
+            => CalculateBrightness(color) > 0.5 ? darkColor : brightColor;
 
         public static object GetContrastObject(Color color, object brightObject, object darkObject)
-        {
-            return CalculateBrightness(color) > 0.5 ? darkObject : brightObject;
-        }
+            => CalculateBrightness(color) > 0.5 ? darkObject : brightObject;
 
         /*public static double? GetHue(this Color color)
         {
@@ -80,17 +83,29 @@ namespace CB.Media.Brushes.Impl
         public static double? GetHue(this Color color)
         {
             if (color.R == color.G && color.G == color.B) return null;
-            if (color.R >= color.G && color.G >= color.B) return CalculateHue(0, color.B, color.R, color.G, true);
-            if (color.G >= color.R && color.R >= color.B) return CalculateHue(60, color.B, color.G, color.R, false);
-            if (color.G >= color.B && color.B >= color.R) return CalculateHue(120, color.R, color.G, color.B, true);
-            if (color.B >= color.G && color.G >= color.R) return CalculateHue(180, color.R, color.B, color.G, false);
-            if (color.B >= color.R && color.R >= color.G) return CalculateHue(240, color.G, color.B, color.R, true);
-            if (color.R >= color.B && color.B >= color.G) return CalculateHue(300, color.G, color.R, color.B, false);
+            if (color.R >= color.G && color.G >= color.B)
+                return CalculateHue(0, color.ScB, color.ScR, color.ScG, true);
+            if (color.G >= color.R && color.R >= color.B)
+                return CalculateHue(60, color.ScB, color.ScG, color.ScR, false);
+            if (color.G >= color.B && color.B >= color.R)
+                return CalculateHue(120, color.ScR, color.ScG, color.ScB, true);
+            if (color.B >= color.G && color.G >= color.R)
+                return CalculateHue(180, color.ScR, color.ScB, color.ScG, false);
+            if (color.B >= color.R && color.R >= color.G)
+                return CalculateHue(240, color.ScG, color.ScB, color.ScR, true);
+            if (color.R >= color.B && color.B >= color.G)
+                return CalculateHue(300, color.ScG, color.ScR, color.ScB, false);
             return null;
         }
 
+        public static double GetLightness(this Color color)
+            => GetMaxScRgb(color);
+
         public static double? GetRelativeHue(this Color color)
             => GetHue(color) / 360;
+
+        public static Color GetRoot(this Color color)
+            => SetSaturation(SetLightness(color, 1.0), 1.0);
 
         public static Color? GetRootColor(this Color color, out double offsetX, out double offsetY)
         {
@@ -105,7 +120,7 @@ namespace CB.Media.Brushes.Impl
         }
 
         public static double GetSaturation(this Color color)
-            => 1 - GetMinScRgb(color) / GetMaxScRgb(color);
+            => color.R == color.G && color.G == color.B ? 0 : 1 - GetMinScRgb(color) / GetMaxScRgb(color);
 
         public static bool IsBlack(this Color color)
             => color.R == 0 && color.G == 0 && color.B == 0;
@@ -117,13 +132,13 @@ namespace CB.Media.Brushes.Impl
         {
             var comp = ToByte(brightness);
             return IsBlack(color)
-                       ? Color.FromArgb(color.A, comp, comp, comp)
+                       ? FromArgb(color.A, comp, comp, comp)
                        : AdjustRatio(color, brightness / color.GetAbsoluteBrighness());
         }
 
         public static Color SetBrightness(this Color color, double brightness)
             => IsBlack(color)
-                   ? Color.FromScRgb(color.ScA, (float)brightness, (float)brightness, (float)brightness) :
+                   ? FromScRgb(color.ScA, (float)brightness, (float)brightness, (float)brightness) :
                    AdjustRatio(color, brightness / color.GetBrightness());
 
         public static TGradientBrush SetGradientBrush<TGradientBrush, TValue>(TGradientBrush brush, TValue value,
@@ -142,19 +157,16 @@ namespace CB.Media.Brushes.Impl
             var min = GetMinScRgb(color);
             var max = GetMaxScRgb(color);
             if (Math.Abs(max - min) < double.Epsilon) return null;
+            var scA = color.ScA;
+            return CreateColorFromHue(hue, scA, max, min);
+        }
 
-            if (hue < 60) return Color.FromScRgb(color.ScA, max, CalculateHueComponent(min, max, hue, true), min);
-            if (hue < 120)
-                return Color.FromScRgb(color.ScA, CalculateHueComponent(min, max, hue - 60, false), max, min);
-            if (hue < 180)
-                return Color.FromScRgb(color.ScA, min, max, CalculateHueComponent(min, max, hue - 120, true));
-            if (hue < 240)
-                return Color.FromScRgb(color.ScA, min, CalculateHueComponent(min, max, hue - 180, false), max);
-            if (hue < 300)
-                return Color.FromScRgb(color.ScA, CalculateHueComponent(min, max, hue - 240, true), min, max);
-            if (hue < 360)
-                return Color.FromScRgb(color.ScA, max, min, CalculateHueComponent(min, max, hue - 300, false));
-            return null;
+        public static Color SetLightness(this Color color, double lightness)
+        {
+            var oldBrightness = GetLightness(color);
+            return FromScRgb(color.ScA, CalculateLightnessComponent(color.ScR, oldBrightness, lightness),
+                CalculateLightnessComponent(color.ScG, oldBrightness, lightness),
+                CalculateLightnessComponent(color.ScB, oldBrightness, lightness));
         }
 
         public static Color? SetRelativeHue(this Color color, double hue)
@@ -162,14 +174,29 @@ namespace CB.Media.Brushes.Impl
 
         public static Color SetSaturation(this Color color, double saturation)
         {
-            if (color.R == color.G && color.G == color.B) return Color.FromArgb(color.A, 0, 0, 0);
+            Debug.WriteLine($"Saturation: {saturation}");
+            Color result;
+            if (color.R == color.G && color.G == color.B)
+            {
+                if (saturation < MIN_SATURATION) result = color;
+                else
+                {
+                    var component = (float)(color.ScR * (1 - saturation));
+                    result = FromScRgb(color.ScA, color.ScR, component, component);
+                }
+            }
+            else
+            {
+                var max = GetMaxScRgb(color);
+                var oldSaturation = GetSaturation(color);
+                result = FromScRgb(color.ScA,
+                    CalculateSaturationComponent(max, color.ScR, saturation, oldSaturation),
+                    CalculateSaturationComponent(max, color.ScG, saturation, oldSaturation),
+                    CalculateSaturationComponent(max, color.ScB, saturation, oldSaturation));
+            }
 
-            var max = GetMaxScRgb(color);
-            var currentSaturation = GetSaturation(color);
-            return Color.FromScRgb(color.ScA,
-                CalculateSaturationComponent(max, color.ScR, saturation, currentSaturation),
-                CalculateSaturationComponent(max, color.ScG, saturation, currentSaturation),
-                CalculateSaturationComponent(max, color.ScB, saturation, currentSaturation));
+            Debug.WriteLine($"Color: {result}");
+            return result;
         }
 
         public static SolidColorBrush SetSolidColorBrush<TValue>(SolidColorBrush brush, TValue value,
@@ -187,7 +214,7 @@ namespace CB.Media.Brushes.Impl
             => (float)(sc * (1 + brightness));
 
         private static Color AdjustRatio(Color color, double ratio)
-            => Color.FromScRgb(color.ScA, AdjustRatio(color.ScR, ratio), AdjustRatio(color.ScG, ratio),
+            => FromScRgb(color.ScA, AdjustRatio(color.ScR, ratio), AdjustRatio(color.ScG, ratio),
                 AdjustRatio(color.ScB, ratio));
 
         private static float AdjustRatio(float scB, double ratio)
@@ -211,9 +238,32 @@ namespace CB.Media.Brushes.Impl
             return (float)(increasing ? min + diff : max - diff);
         }
 
-        private static float CalculateSaturationComponent(float max, float currentComponent, double newSaturation,
-            double currentSaturation)
-            => (float)(max - newSaturation / currentSaturation * (max - currentComponent));
+        private static float CalculateLightnessComponent(float component, double oldLightness, double lightness)
+            => (float)(Math.Abs(oldLightness) < double.Epsilon ? lightness : component * lightness / oldLightness);
+
+        private static float CalculateSaturationComponent(float max, float oldComponent, double newSaturation,
+            double oldSaturation)
+            => (float)(newSaturation < MIN_SATURATION
+                           ? max
+                           : max - newSaturation * (max - oldComponent) / oldSaturation);
+
+        private static Color CreateColorFromHue(double hue, float scA, float max, float min)
+        {
+            hue %= 360;
+            return hue < 60
+                       ? FromScRgb(scA, max, CalculateHueComponent(min, max, hue, true), min)
+                       : hue < 120
+                             ? FromScRgb(scA, CalculateHueComponent(min, max, hue - 60, false), max, min)
+                             : hue < 180
+                                   ? FromScRgb(scA, min, max, CalculateHueComponent(min, max, hue - 120, true))
+                                   : hue < 240
+                                         ? FromScRgb(scA, min, CalculateHueComponent(min, max, hue - 180, false), max)
+                                         : hue < 300
+                                               ? FromScRgb(scA, CalculateHueComponent(min, max, hue - 240, true), min,
+                                                   max)
+                                               : FromScRgb(scA, max, min,
+                                                   CalculateHueComponent(min, max, hue - 300, false));
+        }
 
         private static float GetMaxScRgb(Color color)
             => Math.Max(Math.Max(color.ScR, color.ScG), color.ScB);
@@ -253,8 +303,8 @@ namespace CB.Media.Brushes.Impl
         private static byte ReduceWhiteComponent(byte component, double offsetX)
             => (byte)Math.Round((component - 255 * offsetX) / (1 - offsetX));
 
-        private static byte ToByte(double brightness)
-            => (byte)(brightness < 0 ? 0 : brightness > byte.MaxValue ? byte.MaxValue : (byte)(brightness + 0.5));
+        private static byte ToByte(double value)
+            => (byte)(value < 0 ? 0 : value > byte.MaxValue ? byte.MaxValue : (byte)(value + 0.5));
         #endregion
     }
 }

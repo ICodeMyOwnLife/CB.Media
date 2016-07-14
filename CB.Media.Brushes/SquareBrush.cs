@@ -14,6 +14,15 @@ namespace CB.Media.Brushes
         #endregion
 
 
+        #region  Constructors & Destructor
+        public SquareBrush()
+        {
+            // ReSharper disable once VirtualMemberCallInContructor
+            SetBrush();
+        }
+        #endregion
+
+
         #region  Properties & Indexers
         public Color Color1
         {
@@ -49,9 +58,7 @@ namespace CB.Media.Brushes
 
         #region Override
         protected override Brush CreateBrush()
-        {
-            return Create(Color1, Color2, Width, Height);
-        }
+            => Create(Color1, Color2, Width, Height);
         #endregion
 
 

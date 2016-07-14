@@ -91,6 +91,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ColorInfo.cs" />
+    <Compile Include="Helpers\ColorSystemType.cs" />
+    <Compile Include="Helpers\ColorToStringConverter.cs" />
     <Compile Include="ViewModels\TestBrushHelperViewModel.cs" />
     <Compile Include="ViewModels\TestMediaHelperViewModel.cs" />
     <Compile Include="Views\TestBrushHelperWindow.xaml.cs">

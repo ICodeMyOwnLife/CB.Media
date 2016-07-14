@@ -23,7 +23,7 @@ namespace Test.CB.Media.Brushes
                 if (!SetProperty(ref _absoluteBrightness, value)) return;
 
                 _color = Color.SetAbsoluteBrightness(value);
-                _brightness = _color.GetBrightness();
+                _brightness = _color.GetLightness();
                 NotifyPropertiesChanged(nameof(Color), nameof(Brightness));
             }
         }
@@ -35,7 +35,7 @@ namespace Test.CB.Media.Brushes
             {
                 if (!SetProperty(ref _brightness, value)) return;
 
-                _color = Color.SetBrightness(value);
+                _color = Color.SetLightness(value);
                 _absoluteBrightness = _color.GetAbsoluteBrighness();
                 NotifyPropertiesChanged(nameof(Color), nameof(AbsoluteBrightness));
             }
@@ -48,7 +48,7 @@ namespace Test.CB.Media.Brushes
             {
                 if (!SetProperty(ref _color, value)) return;
 
-                _brightness = value.GetBrightness();
+                _brightness = value.GetLightness();
                 _absoluteBrightness = value.GetAbsoluteBrighness();
                 NotifyPropertiesChanged(nameof(Brightness), nameof(AbsoluteBrightness));
             }

@@ -5,12 +5,15 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:vmd="clr-namespace:Test.CB.Media.Brushes.ViewModels"
+                 xmlns:brushes="clr-namespace:CB.Media.Brushes;assembly=CB.Media.Brushes"
                  mc:Ignorable="d"
                  Title="TestMediaHelperWindow" Width="450" Style="{StaticResource MetroWindowStyle}"
                  WindowStartupLocation="CenterScreen" SizeToContent="Height">
 
     <Window.Resources>
         <vmd:TestMediaHelperViewModel x:Key="MainViewModel" />
+
+        <brushes:SquareBrush x:Key="SquareBrush" />
     </Window.Resources>
 
     <Window.DataContext>
@@ -39,50 +42,98 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
+                <ColumnDefinition Width="180" />
             </Grid.ColumnDefinitions>
+
+            <Rectangle Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                       Fill="{Binding Source={StaticResource SquareBrush} ,Path=Brush}" />
 
             <Rectangle Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                 <Rectangle.Fill>
-                    <SolidColorBrush Color="{Binding Color}" />
+                    <SolidColorBrush Color="{Binding ColorInfo.Color}" />
                 </Rectangle.Fill>
             </Rectangle>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="R:" />
+            <Rectangle Grid.Row="0" Grid.Column="2">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding ColorInfo.Root}" />
+                </Rectangle.Fill>
+            </Rectangle>
 
-            <Slider Grid.Row="1" Grid.Column="1" Style="{StaticResource SliderStyle.255}"
-                    Value="{Binding R}" />
+            <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextAlignment="Center"
+                     Text="{Binding ColorInfo.Color, Mode=OneWay, Converter={StaticResource ColorToStringConverter}}" />
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="G:" />
+            <TextBox Grid.Row="1" Grid.Column="2" TextAlignment="Center"
+                     Text="{Binding ColorInfo.Root, Mode=OneWay, Converter={StaticResource ColorToStringConverter}}" />
 
-            <Slider Grid.Row="2" Grid.Column="1" Style="{StaticResource SliderStyle.255}"
-                    Value="{Binding G}" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="A:" />
+            <Slider Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.255}"
+                    Value="{Binding ColorInfo.A}" />
 
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="B:" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="R:" />
+            <Slider Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.255}"
+                    Value="{Binding ColorInfo.R}" />
 
-            <Slider Grid.Row="3" Grid.Column="1" Style="{StaticResource SliderStyle.255}"
-                    Value="{Binding B}" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="G:" />
+            <Slider Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.255}"
+                    Value="{Binding ColorInfo.G}" />
 
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Hue:" />
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="B:" />
+            <Slider Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.255}"
+                    Value="{Binding ColorInfo.B}" />
 
-            <Slider Grid.Row="4" Grid.Column="1" Style="{StaticResource SliderStyle.360}"
-                    Value="{Binding Hue}" />
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="ScA:" />
+            <Slider Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.1}"
+                    Value="{Binding ColorInfo.ScA}" />
 
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Saturation:" />
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="ScR:" />
+            <Slider Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.1}"
+                    Value="{Binding ColorInfo.ScR}" />
 
-            <Slider Grid.Row="5" Grid.Column="1" Style="{StaticResource SliderStyle.1}"
-                    Value="{Binding Saturation}" />
+            <TextBlock Grid.Row="8" Grid.Column="0" Text="ScG:" />
+            <Slider Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.1}"
+                    Value="{Binding ColorInfo.ScG}" />
 
-            <TextBlock Grid.Row="6" Grid.Column="0" Text="Brightness:" />
+            <TextBlock Grid.Row="9" Grid.Column="0" Text="ScB:" />
+            <Slider Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.1}"
+                    Value="{Binding ColorInfo.ScB}" />
 
-            <Slider Grid.Row="6" Grid.Column="1" Style="{StaticResource SliderStyle.1}"
-                    Value="{Binding Brightness}" />
+            <TextBlock Grid.Row="10" Grid.Column="0" Text="Hue:" />
+            <Slider Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.360}"
+                    Value="{Binding ColorInfo.Hue}" />
 
-            <Button Grid.Row="7" Grid.Column="0" Content="Reset" Command="{Binding ResetCommand}" />
+            <TextBlock Grid.Row="11" Grid.Column="0" Text="Saturation:" />
+            <Slider Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.1}"
+                    Value="{Binding ColorInfo.Saturation}" />
+
+            <TextBlock Grid.Row="12" Grid.Column="0" Text="Lightness:" />
+            <Slider Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="2"
+                    Style="{StaticResource SliderStyle.1}"
+                    Value="{Binding ColorInfo.Lightness}" />
+
+            <Button Grid.Row="13" Grid.Column="2" Content="Reset" HorizontalAlignment="Right"
+                    Command="{Binding ResetCommand}" />
         </Grid>
 
         <StatusBar Grid.Row="2" />
